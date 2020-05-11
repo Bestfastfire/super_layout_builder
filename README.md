@@ -2,6 +2,7 @@
 Check it out at [Pub.Dev](https://pub.dev/packages/super_layout_builder)
 
 The best way to create responsive layouts for dynamic screen sizes.
+
 *Note: This library was designed for the web version of the flutter, since web pages, unlike cell phone applications, can be resized several times in a row by the user.
 
 ### SuperLayoutBuilder
