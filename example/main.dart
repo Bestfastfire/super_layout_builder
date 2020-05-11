@@ -5,7 +5,7 @@ import 'package:super_layout_builder/super_layout_builder.dart';
 class Home extends StatelessWidget {
   int built = 0;
 
-  Widget customDrawer(){
+  Widget customDrawer() {
     return Flexible(
       flex: 1,
       child: Container(
@@ -13,14 +13,13 @@ class Home extends StatelessWidget {
         child: ListView(
           children: [
             Material(
-              color: Colors.blueAccent,
-              child: ListTile(
-                leading: Icon(Icons.home),
-                selected: true,
-                title: Text('Home', style: TextStyle(color: Colors.white)),
-                onTap: (){},
-              )
-            )
+                color: Colors.blueAccent,
+                child: ListTile(
+                  leading: Icon(Icons.home),
+                  selected: true,
+                  title: Text('Home', style: TextStyle(color: Colors.white)),
+                  onTap: () {},
+                ))
           ],
         ),
       ),
@@ -31,16 +30,11 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     built++;
     return SuperLayoutBuilder(
-      triggerWidth: [
-        850
-      ],
-      triggerHeight: [
-        500
-      ],
+      triggerWidth: [850],
+      triggerHeight: [500],
       builder: (c, m) => Scaffold(
-        drawer: m.size.width <= 850 ?
-        customDrawer() : null,
-        appBar:AppBar(
+        drawer: m.size.width <= 850 ? customDrawer() : null,
+        appBar: AppBar(
           elevation: 0,
           title: Text('Home'),
         ),
@@ -49,14 +43,12 @@ class Home extends StatelessWidget {
             Expanded(
               child: Row(
                 children: <Widget>[
-                  m.size.width <= 850 ? Container() :
-                  customDrawer(),
+                  m.size.width <= 850 ? Container() : customDrawer(),
                   Flexible(
                     flex: 4,
                     child: Container(
-                      child: Text('Times built: $built', style: TextStyle(
-                        fontSize: 32
-                      )),
+                      child: Text('Times built: $built',
+                          style: TextStyle(fontSize: 32)),
                     ),
                   )
                 ],
