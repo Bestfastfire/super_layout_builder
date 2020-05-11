@@ -9,8 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  bloc_pattern: any
-  rxdart: any
+  bloc_pattern: ^2.5.1
+  rxdart: ^0.24.0
 
 dev_dependencies:
   flutter_test:
