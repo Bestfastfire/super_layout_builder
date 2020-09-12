@@ -3,13 +3,20 @@ library super_layout_builder;
 import 'dart:async';
 import 'dart:math';
 
-import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
-class _LayoutMetricBloc with WidgetsBindingObserver implements BlocBase {
+abstract class _BlocBase {
+  void dispose();
+}
+
+class _LayoutMetricBloc with WidgetsBindingObserver implements _BlocBase {
   final _metrics = BehaviorSubject<MediaQueryData>();
+
+  /// Stream with MediaQueryData
   Stream<MediaQueryData> get outStreamMetrics => _metrics.stream;
+
+  /// Current MediaQueryData
   MediaQueryData get getCurrent => _metrics.value;
 
   static _LayoutMetricBloc _instance;
@@ -22,6 +29,7 @@ class _LayoutMetricBloc with WidgetsBindingObserver implements BlocBase {
     getData();
   }
 
+  /// Sink MediaQueryData
   getData() {
     final data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
     _metrics.sink.add(data);
@@ -37,24 +45,17 @@ class _LayoutMetricBloc with WidgetsBindingObserver implements BlocBase {
   void dispose() {
     _metrics.close();
   }
-
-  @override
-  void addListener(listener) {}
-
-  @override
-  bool get hasListeners => throw UnimplementedError();
-
-  @override
-  void notifyListeners() {}
-
-  @override
-  void removeListener(listener) {}
 }
 
 // ignore: must_be_immutable
 class SuperLayoutBuilder extends StatefulWidget {
+  /// Builder with MediaQueryData
   final Widget Function(BuildContext context, MediaQueryData data) builder;
+
+  /// List of widths to trigger
   final List<double> triggerWidth;
+
+  /// List of heights to trigger
   final List<double> triggerHeight;
 
   SuperLayoutBuilder(
@@ -67,17 +68,25 @@ class SuperLayoutBuilder extends StatefulWidget {
 }
 
 class _SuperLayoutBuilderState extends State<SuperLayoutBuilder> {
-  static final _LayoutMetricBloc bloc = _LayoutMetricBloc();
+  static final _LayoutMetricBloc control = _LayoutMetricBloc();
+
+  /// StreamSubscription
   StreamSubscription<MediaQueryData> listener;
-  MediaQueryData lastTrigger = bloc.getCurrent;
-  double lastWidth = bloc.getCurrent.size.width;
-  double lastHeight = bloc.getCurrent.size.height;
+
+  /// Last MediaQueryData
+  MediaQueryData lastTrigger = control.getCurrent;
+
+  /// Last triggered width
+  double lastWidth = control.getCurrent.size.width;
+
+  /// Last triggered height
+  double lastHeight = control.getCurrent.size.height;
   SuperLayoutBuilder get w => widget;
 
   @override
   void initState() {
     super.initState();
-    listener = bloc.outStreamMetrics.listen((e) {
+    listener = control.outStreamMetrics.listen((e) {
       bool need(double v, double current, List<double> check, bool upper) {
         final biggest = check.where((d) => d >= v).toList();
         final smaller = check.where((d) => d < v).toList();
