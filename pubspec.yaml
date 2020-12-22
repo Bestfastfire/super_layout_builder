@@ -1,6 +1,6 @@
 name: super_layout_builder
 description: The best way to create responsive layouts for dynamic screen sizes.
-version: 1.0.0
+version: 1.0.0+1
 homepage: https://github.com/Bestfastfire/super_layout_builder
 
 environment:
@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  rxdart: ^0.24.1
+  rxdart: ^0.25.0
 
 dev_dependencies:
   flutter_test:
